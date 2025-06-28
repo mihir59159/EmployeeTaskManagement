@@ -4,26 +4,36 @@ const Header = (props) => {
     const [user, setUser] = useState('')
 
     const logOutUser = () => {
-        localStorage.setItem('loggedInUser', '')
-        props.changeUser('')
+        localStorage.removeItem('loggedInUser')
+        localStorage.removeItem('token')
+        if (props.changeUser) {
+            props.changeUser('')
+        }
         window.location.reload()
     }
 
     return (
-        <div className='flex items-end justify-between'>
-            <h1 className='text-2xl font-medium'>
+        <div className='flex items-end justify-between mb-6'>
+            <h1 className='text-2xl font-medium text-white'>
                 Hello <br />
                 <span className='text-3xl font-semibold'>
-                    {props.userData?.firstName} 👋
+                    {props.userData?.firstName || props.data?.firstName} 👋
                 </span>
             </h1>
             <div className='flex items-center gap-4'>
-                <span className='text-lg capitalize bg-gray-700 px-3 py-1 rounded'>
-                    {props.userData?.role}
-                </span>
+                <div className='text-right'>
+                    <span className='text-lg capitalize bg-gray-700 px-3 py-1 rounded text-white'>
+                        {props.userData?.role || props.data?.role}
+                    </span>
+                    {props.userData?.email || props.data?.email && (
+                        <p className='text-sm text-gray-400 mt-1'>
+                            {props.userData?.email || props.data?.email}
+                        </p>
+                    )}
+                </div>
                 <button 
                     onClick={logOutUser}
-                    className='bg-red-600 text-base font-medium text-white px-5 py-2 rounded-sm'
+                    className='bg-red-600 hover:bg-red-700 text-base font-medium text-white px-5 py-2 rounded-sm transition-colors'
                 >
                     Log Out
                 </button>
