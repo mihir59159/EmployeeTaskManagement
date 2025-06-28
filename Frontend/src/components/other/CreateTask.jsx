@@ -34,17 +34,16 @@ const CreateTask = ({ managerId }) => {
     const submitHandler = async (e) => {
         e.preventDefault()
         setLoading(true)
-
         try {
             await taskAPI.createTask({
                 taskTitle,
                 taskDescription,
                 taskDate,
                 category,
-                assignTo,
+                assignTo, // This should be employee ID now
                 assignedBy: managerId
             })
-
+            
             // Reset form
             setTaskTitle('')
             setCategory('')
@@ -54,10 +53,10 @@ const CreateTask = ({ managerId }) => {
             
             // Refresh data
             refreshData()
-            fetchManagedEmployees()
+            await fetchManagedEmployees()
             alert('Task created successfully!')
         } catch (error) {
-            alert('Error creating task: ' + error.response?.data?.message)
+            alert('Error creating task: ' + (error.response?.data?.message || error.message))
         } finally {
             setLoading(false)
         }
@@ -81,7 +80,7 @@ const CreateTask = ({ managerId }) => {
                         <input
                             value={taskTitle}
                             onChange={(e) => setTaskTitle(e.target.value)}
-                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4'
+                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4 text-white'
                             type="text"
                             placeholder='Make a UI design'
                             required
@@ -92,7 +91,7 @@ const CreateTask = ({ managerId }) => {
                         <input
                             value={taskDate}
                             onChange={(e) => setTaskDate(e.target.value)}
-                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4'
+                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4 text-white'
                             type="date"
                             required
                         />
@@ -102,12 +101,12 @@ const CreateTask = ({ managerId }) => {
                         <select
                             value={assignTo}
                             onChange={(e) => setAssignTo(e.target.value)}
-                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4'
+                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-gray-800 border-[1px] border-gray-400 mb-4 text-white'
                             required
                         >
-                            <option value="">Select Employee</option>
+                            <option value="" className='bg-gray-800'>Select Employee</option>
                             {managedEmployees.map(emp => (
-                                <option key={emp._id} value={emp.firstName} className='bg-gray-800'>
+                                <option key={emp._id} value={emp._id} className='bg-gray-800'>
                                     {emp.firstName} ({emp.email})
                                 </option>
                             ))}
@@ -121,19 +120,21 @@ const CreateTask = ({ managerId }) => {
                         <input
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4'
+                            className='text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent border-[1px] border-gray-400 mb-4 text-white'
                             type="text"
                             placeholder='design, dev, etc'
                             required
                         />
                     </div>
                 </div>
+
                 <div className='w-2/5 flex flex-col items-start'>
                     <h3 className='text-sm text-gray-300 mb-0.5'>Description</h3>
                     <textarea
                         value={taskDescription}
                         onChange={(e) => setTaskDescription(e.target.value)}
-                        className='w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400'
+                        className='w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400 text-white'
+                        placeholder='Enter task description...'
                         required
                     ></textarea>
                     <button

@@ -16,3 +16,18 @@ const AdminDashboard = (props) => {
 }
 
 export default AdminDashboard
+
+
+/*
+
+createTask
+ManagerEmployeeList
+NewTask
+AceptTask
+CompleteTast
+FiledTask
+TaskList
+AuthProvide
+EmployeeDashboard
+AdminDashboard--
+*/
