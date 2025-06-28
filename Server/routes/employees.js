@@ -28,7 +28,11 @@ router.get('/managed/:managerId', async (req, res) => {
 router.post('/create-manager', async (req, res) => {
     try {
         const { firstName, email, password, createdBy } = req.body;
-        
+
+        if (!firstName || !email || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
         const manager = new User({
             firstName,
             email,
@@ -48,7 +52,16 @@ router.post('/create-manager', async (req, res) => {
 router.post('/create-employee', async (req, res) => {
     try {
         const { firstName, email, password, createdBy, managedBy } = req.body;
-        
+
+        if (!firstName || !email || !password) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
+
+        if (!createdBy || !managedBy) {
+            return res.status(400).json({ message: 'createdBy and managedBy are required' });
+        }
+
+
         const employee = new User({
             firstName,
             email,

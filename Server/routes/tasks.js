@@ -7,7 +7,7 @@ router.post('/create', async (req, res) => {
     try {
         const { taskTitle, taskDescription, taskDate, category, assignTo, assignedBy } = req.body;
         
-        const employee = await User.findOne({ firstName: assignTo });
+        const employee = await User.findById(assignTo);
         if (!employee) {
             return res.status(404).json({ message: 'Employee not found' });
         }
@@ -57,6 +57,8 @@ router.put('/update-status/:employeeId/:taskId', async (req, res) => {
         task.active = false;
         task.completed = false;
         task.failed = false;
+
+        
 
         // Set new status
         task[status] = true;
