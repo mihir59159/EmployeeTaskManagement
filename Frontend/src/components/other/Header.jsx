@@ -5,7 +5,6 @@ const Header = (props) => {
 
     const logOutUser = () => {
         localStorage.removeItem('loggedInUser')
-        localStorage.removeItem('token')
         if (props.changeUser) {
             props.changeUser('')
         }
@@ -13,8 +12,8 @@ const Header = (props) => {
     }
 
     return (
-        <div className='flex items-end justify-between mb-6'>
-            <h1 className='text-2xl font-medium text-white'>
+        <div className='flex items-end justify-between mb-6 text-black'>
+            <h1 className='text-2xl font-medium '>
                 Hello <br />
                 <span className='text-3xl font-semibold'>
                     {props.userData?.firstName || props.data?.firstName} 👋
@@ -22,9 +21,9 @@ const Header = (props) => {
             </h1>
             <div className='flex items-center gap-4'>
                 <div className='text-right'>
-                    <span className='text-lg capitalize bg-gray-700 px-3 py-1 rounded text-white'>
+                    {/* <span className='text-lg capitalize bg-gray-700 px-3 py-1 rounded text-white'>
                         {props.userData?.role || props.data?.role}
-                    </span>
+                    </span> */}
                     {props.userData?.email || props.data?.email && (
                         <p className='text-sm text-gray-400 mt-1'>
                             {props.userData?.email || props.data?.email}

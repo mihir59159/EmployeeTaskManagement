@@ -10,7 +10,7 @@ import EmployeeDashboard from './components/Dashboard/EmployeeDashboard.jsx'
 const App = () => {
   const [user, setUser] = useState(null)
   const [loggedInUserData, setLoggedInUserData] = useState(null)
-  const [userData, setUserData, refreshData, loading] = useContext(AuthContext)
+  // const {userData, setUserData, refreshData, loading} = useContext(AuthContext)
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem('loggedInUser')
@@ -31,19 +31,19 @@ const App = () => {
       setLoggedInUserData(data)
       localStorage.setItem('loggedInUser', JSON.stringify({ role, data }))
       
-      if (role === 'employee' || role === 'manager') {
-        refreshData() // Refresh employee data
-      }
+      // if (role === 'employee' || role === 'manager') {
+      //   // refreshData() // Refresh employee data
+      // }
     } catch (error) {
       alert("Invalid Credentials")
     }
   }
 
-  if (loading) {
-    return <div className="flex items-center justify-center h-screen">
-      <div className="text-white text-xl">Loading...</div>
-    </div>
-  }
+  // if (loading) {
+  //   return <div className="flex items-center justify-center h-screen">
+  //     <div className="text-white text-xl">Loading...</div>
+  //   </div>
+  // }
 
   return (
     <>
@@ -55,6 +55,7 @@ const App = () => {
       ) : user === 'employee' ? (
         <EmployeeDashboard changeUser={setUser} data={loggedInUserData} />
       ) : null}
+      
     </>
   )
 }

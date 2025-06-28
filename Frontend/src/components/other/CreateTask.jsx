@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthProvider'
 import { taskAPI, employeeAPI } from '../../services/api'
 
 const CreateTask = ({ managerId }) => {
-    const [userData, setUserData, refreshData] = useContext(AuthContext)
+    const {userData, setUserData, refreshData} = useContext(AuthContext)
     const [taskTitle, setTaskTitle] = useState('')
     const [taskDescription, setTaskDescription] = useState('')
     const [taskDate, setTaskDate] = useState('')

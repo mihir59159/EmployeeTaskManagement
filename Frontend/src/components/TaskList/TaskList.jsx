@@ -6,7 +6,7 @@ import FailedTask from './FailedTask'
 import { AuthContext } from '../../context/AuthProvider'
 
 const TaskList = ({ data }) => {
-    const [userData, setUserData, refreshData] = useContext(AuthContext)
+    const {userData, setUserData, refreshData} = useContext(AuthContext)
     const [localTasks, setLocalTasks] = useState(data.tasks || [])
 
     useEffect(() => {

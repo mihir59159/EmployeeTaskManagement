@@ -3,7 +3,7 @@ import { AuthContext } from '../../context/AuthProvider'
 import { taskAPI, employeeAPI } from '../../services/api'
 
 const ManagerEmployeeList = ({ managerId }) => {
-    const [userData, setUserData, refreshData] = useContext(AuthContext)
+    const {userData, setUserData, refreshData} = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [managedEmployees, setManagedEmployees] = useState([])
 
@@ -34,7 +34,7 @@ const ManagerEmployeeList = ({ managerId }) => {
         try {
             await taskAPI.withdrawTask(employeeId, taskId)
             await fetchManagedEmployees() // Refresh the employee list
-            refreshData() // Refresh global data
+            // refreshData() // Refresh global data
             alert('Task withdrawn successfully!')
         } catch (error) {
             alert('Error withdrawing task: ' + (error.response?.data?.message || error.message))
