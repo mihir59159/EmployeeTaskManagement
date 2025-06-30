@@ -47,7 +47,7 @@ const CreateEmployee = ({ managerId, onEmployeeCreated }) => {
                     <input
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
-                        className='text-sm py-1 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
+                        className='text-sm py-1 text-gray-200 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
                         type="text"
                         placeholder='Employee Name'
                         required
@@ -58,7 +58,7 @@ const CreateEmployee = ({ managerId, onEmployeeCreated }) => {
                     <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className='text-sm py-1 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
+                        className='text-sm text-gray-200 py-1 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
                         type="email"
                         placeholder='employee@example.com'
                         required
@@ -69,7 +69,7 @@ const CreateEmployee = ({ managerId, onEmployeeCreated }) => {
                     <input
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className='text-sm py-1 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
+                        className='text-sm text-gray-200 py-1 px-2 w-full rounded outline-none bg-transparent border-[1px] border-gray-400'
                         type="text"
                         placeholder='Password'
                         required

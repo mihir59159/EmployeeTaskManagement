@@ -1,50 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
-// import Header from "../other/Header";
 import TaskListNumbers from "../other/TaskListNumbers";
 import TaskList from "../TaskList/TaskList";
 import { AuthContext } from "../../context/AuthProvider";
 
 const EmployeeDashboard = () => {
-  const { userData, refreshData } = useContext(AuthContext);
-  // const [currentUser, setCurrentUser] = useState(null)
+  const { userData,loadUser } = useContext(AuthContext);
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   handleRefresh();
-    // }, 30000);
-
-    // return () => clearInterval(interval);
-
-    !userData && window.location.reload();
-  }, [userData]);
+    handleRefresh();
+  }, []);
 
   const handleRefresh = async () => {
-    console.log("first")
-    setRefreshing(true);
+    // setRefreshing(true);
     try {
-      await refreshData();
+      await loadUser();
     } catch (error) {
       console.error("Refresh failed:", error);
     } finally {
-      setRefreshing(false);
+      // setRefreshing(false);
     }
   };
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
-      // const { logout } = useContext(AuthContext)
-      // logout()
-      // window.location.href = '/login'
       localStorage.removeItem("loggedInUser");
-      //   if (props.changeUser) {
-      //     props.changeUser("");
-      //   }
       window.location.reload();
     }
   };
 
-  console.log(userData);
   const employeeData = userData?.[0];
 
   return (
@@ -58,7 +42,7 @@ const EmployeeDashboard = () => {
         </div>
         <div className="flex items-center gap-3">
           <button
-            onClick={()=>handleRefresh()}
+            onClick={() => handleRefresh()}
             disabled={refreshing}
             className="bg-gray-700 cursor-pointer hover:bg-gray-600 text-white px-3 py-2 rounded text-sm transition-colors disabled:opacity-50 flex items-center gap-2"
           >
@@ -86,7 +70,6 @@ const EmployeeDashboard = () => {
         </div>
       </div>
 
-      {/* <Header data={employeeData} /> */}
       {employeeData && (
         <>
           <TaskListNumbers data={employeeData} />
@@ -94,13 +77,6 @@ const EmployeeDashboard = () => {
         </>
       )}
 
-      {/* Status indicator
-      <div className="fixed bottom-4 right-4">
-        <div className="bg-gray-800 rounded-lg px-3 py-2 text-sm text-gray-300 flex items-center gap-2">
-          <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-          Auto-refresh active
-        </div>
-      </div> */}
     </div>
   );
 };

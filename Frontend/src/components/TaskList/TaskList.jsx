@@ -6,30 +6,16 @@ import FailedTask from './FailedTask'
 import { AuthContext } from '../../context/AuthProvider'
 
 const TaskList = ({ data }) => {
-    const {userData, setUserData, refreshData} = useContext(AuthContext)
+    const {userData, refreshData} = useContext(AuthContext)
     const [localTasks, setLocalTasks] = useState(data.tasks || [])
 
     useEffect(() => {
         setLocalTasks(data.tasks || [])
     }, [data.tasks])
 
-    const handleTaskUpdate = () => {
-        // Refresh the global data
-        refreshData()
-        
-        // Update local storage
-        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'))
-        if (loggedInUser) {
-            // Find updated user data
-            const updatedUser = userData?.find(user => user._id === data._id)
-            if (updatedUser) {
-                loggedInUser.data = updatedUser
-                localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser))
-            }
-        }
-    }
-
     const activeTasks = localTasks.filter(task => !task.withdrawn)
+    
+    console.log(activeTasks)
 
     return (
         <div className='mt-10'>
@@ -43,10 +29,10 @@ const TaskList = ({ data }) => {
                 ) : (
                     activeTasks.map((task) => {
                         if (task.active) {
-                            return <AcceptTask key={task._id} data={task} employeeId={data._id} onTaskUpdate={handleTaskUpdate} />
+                            return <AcceptTask key={task._id} data={task} employeeId={data._id} />
                         }
                         if (task.newTask) {
-                            return <NewTask key={task._id} data={task} employeeId={data._id} onTaskUpdate={handleTaskUpdate} />
+                            return <NewTask key={task._id} data={task} employeeId={data._id} />
                         }
                         if (task.completed) {
                             return <CompleteTask key={task._id} data={task} employeeId={data._id} />

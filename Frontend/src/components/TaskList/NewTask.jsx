@@ -1,28 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { taskAPI } from '../../services/api'
+import { AuthContext } from '../../context/AuthProvider';
 
-const NewTask = ({ data, employeeId, onTaskUpdate }) => {
+const NewTask = ({ data, employeeId }) => {
     const [loading, setLoading] = useState(false)
+      const { loadUser } = useContext(AuthContext);
 
     const acceptTask = async () => {
-        setLoading(true)
         try {
             await taskAPI.updateTaskStatus(employeeId, data._id, 'active')
-            
-            // Update local storage with new user data
-            const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'))
-            if (loggedInUser && loggedInUser.data._id === employeeId) {
-                // Refresh the page to get updated data
-                window.location.reload()
-            }
-            
-            if (onTaskUpdate) {
-                onTaskUpdate()
-            }
+              await loadUser();
         } catch (error) {
             alert('Error accepting task: ' + (error.response?.data?.message || error.message))
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -37,10 +26,10 @@ const NewTask = ({ data, employeeId, onTaskUpdate }) => {
             <div className='mt-auto'>
                 <button 
                     onClick={acceptTask}
-                    disabled={loading}
+                 
                     className='bg-green-500 hover:bg-green-600 rounded font-medium py-2 px-4 text-sm w-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white'
                 >
-                    {loading ? 'Accepting...' : 'Accept Task'}
+                    Accept Task
                 </button>
             </div>
         </div>

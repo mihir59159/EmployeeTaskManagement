@@ -2,8 +2,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 import { employeeAPI } from "../../services/api";
 
-const PromoteToManager = () => {
-  const { userData,loadUser } = useContext(AuthContext);
+const DePromoteToEmployee = () => {
+  const { userData, loadUser } = useContext(AuthContext);
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -13,8 +13,8 @@ const PromoteToManager = () => {
 
   const fetchEmployees = () => {
     const employeeList =
-      userData?.filter((user) => user.role === "employee") || [];
-      console.log(employeeList)
+      userData?.filter((user) => user.role === "manager") || [];
+    // console.log(employeeList)
     setEmployees(employeeList);
   };
 
@@ -28,7 +28,7 @@ const PromoteToManager = () => {
     }
 
     try {
-      await employeeAPI.updateRole(employeeId, "manager");
+      await employeeAPI.updateRole(employeeId, "employee");
       fetchEmployees(); // Refresh local employee list
       alert(`${employeeName} has been promoted to manager successfully!`);
     } catch (error) {
@@ -40,10 +40,10 @@ const PromoteToManager = () => {
   };
 
   return (
-    <div className="bg-[#1c1c1c] p-5 rounded mt-5">
+    <div className="bg-[#1c1c1c] p-5 rounded mt-5 pb-11">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-white">
-          Promote Employee to Manager
+          DePromote Manager to Employee
         </h2>
         <button
           onClick={() => fetchEmployees()}
@@ -76,44 +76,20 @@ const PromoteToManager = () => {
                   Current Role: {employee.role}
                 </p>
               </div>
-
-              {/* Task Summary */}
-              <div className="mb-3 text-xs text-gray-500">
-                <div className="flex justify-between">
-                  <span>
-                    Tasks:{" "}
-                    {(employee.taskCounts?.newTask || 0) +
-                      (employee.taskCounts?.active || 0) +
-                      (employee.taskCounts?.completed || 0) +
-                      (employee.taskCounts?.failed || 0)}
-                  </span>
-                  <span>Completed: {employee.taskCounts?.completed || 0}</span>
-                </div>
-              </div>
-
               <button
                 onClick={() =>
                   promoteToManager(employee._id, employee.firstName)
                 }
                 className="w-full bg-purple-500 hover:bg-purple-600 px-3 py-2 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white"
               >
-                Promote to Manager
+                DePromote to Employee
               </button>
             </div>
           ))}
-        </div>
-      )}
-
-      {employees.length > 0 && (
-        <div className="mt-4 p-3 bg-gray-800 rounded">
-          <p className="text-gray-300 text-sm">
-            {employees.length} employee{employees.length !== 1 ? "s" : ""}{" "}
-            eligible for promotion
-          </p>
         </div>
       )}
     </div>
   );
 };
 
-export default PromoteToManager;
+export default DePromoteToEmployee;

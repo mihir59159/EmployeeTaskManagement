@@ -14,6 +14,7 @@ export const authAPI = {
 // Employee API
 export const employeeAPI = {
   getAllEmployees: () => api.get('/employees'),
+  getEmployee:(id)=> api.get(`/employees/${id}`),
   getEmployeesByManager: (managerId) => api.get(`/employees/managed/${managerId}`),
   createManager: (data) => api.post('/employees/create-manager', data),
   createEmployee: (data) => api.post('/employees/create-employee', data),

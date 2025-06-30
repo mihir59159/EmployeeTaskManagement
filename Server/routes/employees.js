@@ -24,6 +24,25 @@ router.get('/managed/:managerId', async (req, res) => {
     }
 });
 
+router.get('/:id', async (req, res) => {
+    try {
+        // console.log("first")
+        const employee = await User.find({ _id: req.params.id });
+        res.json(employee);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/managed/:managerId', async (req, res) => {
+    try {
+        const employees = await User.find({ managedBy: req.params.managerId });
+        res.json(employees);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // Create manager (admin only)
 router.post('/create-manager', async (req, res) => {
     try {

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from "react";
+import { AuthContext } from "../../context/AuthProvider";
 
 const TaskListNumbers = ({ data }) => {
     const taskCounts = data?.taskCounts || {
@@ -8,6 +9,8 @@ const TaskListNumbers = ({ data }) => {
         failed: 0
     }
 
+     const { userData } = useContext(AuthContext);
+    
     return (
         <div className='flex mt-10 justify-between gap-5 w-full'>
             <div className='rounded-xl flex-1 py-6 px-6 bg-red-400 text-black'>
